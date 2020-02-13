@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <title>Hello!</title>
+
+        <style>
+            .tooltip {
+                position: relative;
+                display: inline-block;
+                border-bottom: 1px dotted black;
+            }
+
+            .tooltip .tooltiptext {
+                visibility: hidden;
+                width: 400px;
+                background-color: rgb(49, 49, 49);
+                color: #fff;
+                text-align: center;
+                border-radius: 6px;
+                padding: 5px 0;
+
+                /* Position the tooltip */
+                position: absolute;
+                z-index: 1;
+            }
+
+            .tooltip:hover .tooltiptext {
+                visibility: visible;
+            }
+
+
+        </style>
+    </head>
+    <body style="background-color: lightgray;">
+
+        <div id="main" style="box-sizing: border-box; margin: 0 auto; background-color: whitesmoke; max-width: 800px; padding: 50px 50px; text-align: center;">
+            <h1 style="text-align: center;" id="title">Some headline</h1>
+            <h3 id="verb">asd</h3>
+            <p id="translation">asd</p>
+
+            <div class="tooltip">
+                <span id="tense">asdsad</span>
+                <span class="tooltiptext" id="tense-help">Tooltip text</span>
+            </div>
+
+            <br>
+
+            <input id="input" style="margin: 0 auto;" type="text">
+            <br>
+            <button id="submit" type="button">Submit</button>
+
+        </div>
+
+    </body>
+    <script  type="module" src="js/main.js"></script>
+</html>
