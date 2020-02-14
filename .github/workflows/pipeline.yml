@@ -11,5 +11,11 @@ jobs:
       run: npm install
     - name: Compile sources
       run: tsc
-    - name: Run tests
-      run: npm test
+    - name: Copy files
+      run: |
+        mkdir dist
+        cp -r index.html style.css js/ dist/
+    - name: GitHub Pages Deploy
+      uses: maxheld83/ghpages@v0.2.1
+      env:
+        BUILD_DIR:  "dist/"
