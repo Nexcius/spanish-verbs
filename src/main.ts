@@ -11,6 +11,14 @@ enum AppState {
     QUERY, FEEDBACK
 }
 
+function tryGa(v: any) {
+    try {
+        ga(v)
+    } catch (error) {
+        console.warn("Error:" + error)
+    }
+}
+
 class Main {
     domVerbBase: HTMLSpanElement
     domVerbTranslation: HTMLSpanElement
@@ -23,6 +31,9 @@ class Main {
     currentTense: TenseType
     currentPronoun: PronounType
     state: AppState
+
+    private disableVosotros: boolean
+    private verbs: Verb[]
 
     session = new Session()
 
@@ -44,7 +55,23 @@ class Main {
         this.domTenseHelp =         domTenseHelp
         this.domInput =             domInput
 
+        this.disableVosotros = false
+        this.verbs = data
         this.next()
+    }
+
+    setDisableNosotros(flag: boolean) {
+        this.disableVosotros = flag
+    }
+
+    getVerbList(): [string, boolean][] {
+        let allVerbs = data.map((verb) => verb.base)
+        let selectedVerbs = this.verbs.map((verb) => verb.base)
+        return allVerbs.map((verb) => [verb, selectedVerbs.indexOf(verb) >= 0] )
+    }
+
+    blacklistVerbs(verbsBlacklist: string[]) {
+        this.verbs = data.filter(verb => verbsBlacklist.indexOf(verb.base) < 0)
     }
 
     handleInput() {
@@ -56,9 +83,12 @@ class Main {
     }
 
     private randomVerb() {
-        this.currentVerb = data[Math.floor(Math.random() * data.length)]
+        this.currentVerb = this.verbs[Math.floor(Math.random() * this.verbs.length)]
         this.currentTense = randomEnum(TenseType)
-        this.currentPronoun = randomEnum(PronounType)
+        
+        do {
+            this.currentPronoun = randomEnum(PronounType)
+        } while (this.disableVosotros && this.currentPronoun === PronounType.SECOND_PERSON_PLURAL)
     }
 
     next() {
@@ -78,7 +108,7 @@ class Main {
             + "<br><br>Example: "
             + TENSES[this.currentTense].example
 
-        ga("send", "event", "Interaction", "New Word")
+        // tryGa("send", "event", "Interaction", "New Word")
     }
 
     check() {
@@ -89,15 +119,12 @@ class Main {
         if (anwer === target.spanish) {
             this.domInput.style.color = "green"
             this.session.addResult(target.spanish, true)
-            ga("send", "event", "Result", "Correct")
         } else if (normalizeString(anwer) === normalizeString(target.spanish)) {
             this.domInput.style.color = "blue"
             this.session.addResult(target.spanish, true)
-            ga("send", "event", "Result", "Partially correct")
         } else {
             this.domInput.style.color = "red"
             this.session.addResult(target.spanish, false)
-            ga("send", "event", "Result", "Wrong")
         }
 
         this.domInput.value = target.spanish
@@ -119,5 +146,5 @@ class Main {
             e.preventDefault()
             app.handleInput()
         }
-    }    
+    }
 })();
