@@ -2,6 +2,7 @@ import{data} from "./data.js"
 import { TenseType, TENSES } from "./tense.js"
 import { randomEnum, normalizeString } from "./util.js"
 import { PronounType, Verb, PRONOUNS } from "./verb.js"
+import { Session } from "./session.js"
 
 // https://www.grammarly.com/blog/verb-conjugation/
 // https://www.spanishdict.com/conjugate/ser
@@ -22,6 +23,11 @@ class Main {
     currentTense: TenseType
     currentPronoun: PronounType
     state: AppState
+
+    session = new Session()
+
+    private static TIMEOUT_DURATION: number = 3000
+    
 
     constructor(
             domVerbBase: HTMLSpanElement,
@@ -61,8 +67,6 @@ class Main {
         this.domInput.style.color = "black"
         this.randomVerb()
 
-        console.log(this.currentVerb.getConjugation(this.currentTense, this.currentPronoun))
-
         let conj = this.currentVerb.getConjugation(this.currentTense, this.currentPronoun)
     
         this.domVerbBase.innerText = this.currentVerb.base
@@ -77,16 +81,20 @@ class Main {
 
     check() {
         this.state = AppState.FEEDBACK
-
         let anwer = this.domInput.value.trim().toLowerCase()
         let target = this.currentVerb.getConjugation(this.currentTense, this.currentPronoun)
 
+        
+
         if (anwer === target.spanish) {
             this.domInput.style.color = "green"
+            this.session.addResult(target.spanish, true)
         } else if (normalizeString(anwer) === normalizeString(target.spanish)) {
             this.domInput.style.color = "blue"
+            this.session.addResult(target.spanish, true)
         } else {
             this.domInput.style.color = "red"
+            this.session.addResult(target.spanish, false)
         }
 
         this.domInput.value = target.spanish
@@ -96,14 +104,10 @@ class Main {
 (function() {  
     const domVerbBase: HTMLSpanElement = document.getElementById("verb_base")
     const domVerbTranslation: HTMLSpanElement = document.getElementById("verb_translation")
-
     const domConjEnglish: HTMLHeadingElement = document.getElementById("conjugation_english") as HTMLHeadingElement
-    
     const domTense: HTMLSpanElement = document.getElementById("tense")
     const domTenseHelp: HTMLSpanElement = document.getElementById("tense-help")
-
     const domInput: HTMLInputElement = document.getElementById("input") as HTMLInputElement
-    // const domSubmit: HTMLButtonElement = document.getElementById("submit") as HTMLButtonElement
     
     const app = new Main(domVerbBase, domVerbTranslation, domConjEnglish, domTense, domTenseHelp, domInput);
 

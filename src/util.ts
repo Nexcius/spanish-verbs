@@ -20,3 +20,11 @@ export function normalizeString(str: string): string {
         .replace(new RegExp("[üú]", "g"), "u")
         .replace(new RegExp("ñ", "g"), "n")
 }
+
+export function zeroPad(num: number, minLength: number): string {
+    var s = num.toString()
+    while (s.length < minLength) {
+        s = "0" + s
+    }
+    return s
+}
