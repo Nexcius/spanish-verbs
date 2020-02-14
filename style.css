@@ -63,7 +63,7 @@ ul li.disabled {
     margin-bottom: 40px;
 }
 
-#verb_translation {
+#verb_translation, #conjugation_english {
     font-style: italic;
     font-weight: normal;
     font-size: smaller;

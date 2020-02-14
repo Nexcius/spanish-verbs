@@ -11,7 +11,8 @@ enum AppState {
 export class App {
     domVerbBase: HTMLSpanElement
     domVerbTranslation: HTMLSpanElement
-    domConjEnglish: HTMLHeadingElement
+    domConjSpanish: HTMLSpanElement
+    domConjEnglish: HTMLSpanElement
     domTense: HTMLSpanElement
     domTenseHelp: HTMLSpanElement
     domInput: HTMLInputElement
@@ -37,7 +38,8 @@ export class App {
     constructor(
             domVerbBase: HTMLSpanElement,
             domVerbTranslation: HTMLSpanElement,
-            domConjEnglish: HTMLHeadingElement,
+            domConjSpanish: HTMLSpanElement,
+            domConjEnglish: HTMLSpanElement,
             domTense: HTMLSpanElement,
             domTenseHelp: HTMLSpanElement,
             domInput: HTMLInputElement,
@@ -47,6 +49,7 @@ export class App {
 
         this.domVerbBase =          domVerbBase
         this.domVerbTranslation =   domVerbTranslation
+        this.domConjSpanish =       domConjSpanish
         this.domConjEnglish =       domConjEnglish
         this.domTense =             domTense
         this.domTenseHelp =         domTenseHelp
@@ -97,7 +100,9 @@ export class App {
         this.domVerbBase.innerText = this.currentVerb.base
         this.domVerbTranslation.innerText = this.currentVerb.translation
 
+        this.domConjSpanish.innerText = PRONOUNS[this.currentPronoun].spanish
         this.domConjEnglish.innerText = `${PRONOUNS[this.currentPronoun].english} ${conj.english}`
+
         this.domTense.innerText = TENSES[this.currentTense].name
         this.domTenseHelp.innerHTML = TENSES[this.currentTense].description 
             + "<br><br>Example: "
