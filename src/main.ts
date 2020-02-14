@@ -77,6 +77,8 @@ class Main {
         this.domTenseHelp.innerHTML = TENSES[this.currentTense].description 
             + "<br><br>Example: "
             + TENSES[this.currentTense].example
+
+        ga("send", "event", "Interaction", "New Word")
     }
 
     check() {
@@ -84,17 +86,18 @@ class Main {
         let anwer = this.domInput.value.trim().toLowerCase()
         let target = this.currentVerb.getConjugation(this.currentTense, this.currentPronoun)
 
-        
-
         if (anwer === target.spanish) {
             this.domInput.style.color = "green"
             this.session.addResult(target.spanish, true)
+            ga("send", "event", "Result", "Correct")
         } else if (normalizeString(anwer) === normalizeString(target.spanish)) {
             this.domInput.style.color = "blue"
             this.session.addResult(target.spanish, true)
+            ga("send", "event", "Result", "Partially correct")
         } else {
             this.domInput.style.color = "red"
             this.session.addResult(target.spanish, false)
+            ga("send", "event", "Result", "Wrong")
         }
 
         this.domInput.value = target.spanish
