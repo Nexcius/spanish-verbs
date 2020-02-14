@@ -27,6 +27,9 @@ class Main {
     domTenseHelp: HTMLSpanElement
     domInput: HTMLInputElement
 
+    domVerbSelection: HTMLUListElement
+    domDisableVosotros: HTMLInputElement
+
     currentVerb: Verb
     currentTense: TenseType
     currentPronoun: PronounType
@@ -46,7 +49,9 @@ class Main {
             domConjEnglish: HTMLHeadingElement,
             domTense: HTMLSpanElement,
             domTenseHelp: HTMLSpanElement,
-            domInput: HTMLInputElement,) {
+            domInput: HTMLInputElement,
+            domVerbSelection: HTMLUListElement,
+            domDisableVosotros: HTMLInputElement) {
 
         this.domVerbBase =          domVerbBase
         this.domVerbTranslation =   domVerbTranslation
@@ -54,10 +59,41 @@ class Main {
         this.domTense =             domTense
         this.domTenseHelp =         domTenseHelp
         this.domInput =             domInput
+        this.domVerbSelection =     domVerbSelection
+        this.domDisableVosotros =   domDisableVosotros
 
         this.disableVosotros = false
+        this.domDisableVosotros.checked = this.disableVosotros
+
         this.verbs = data
+        this.populateVerbList()
         this.next()
+    }
+
+    private populateVerbList() {
+        this.domVerbSelection.innerHTML = ""
+        this.verbs.forEach(v => {
+            let node = document.createElement("li") as HTMLLIElement
+            node.innerText = v.base
+            node.onclick = () => { 
+                if (node.classList.contains("disabled")) {
+                    node.classList.remove("disabled")
+                } else {
+                    node.classList.add("disabled")
+                }
+                this.updateVerbList()
+            }
+            this.domVerbSelection.appendChild(node)
+        })
+    }
+
+    private updateVerbList() {
+        let selectedVerbList = Array.from(this.domVerbSelection.children)
+
+        let blacklisted = selectedVerbList
+            .filter(i => i.classList.contains("disabled"))
+            .map(i => i.innerHTML)
+        this.blacklistVerbs(blacklisted)
     }
 
     setDisableNosotros(flag: boolean) {
@@ -138,13 +174,21 @@ class Main {
     const domTense: HTMLSpanElement = document.getElementById("tense")
     const domTenseHelp: HTMLSpanElement = document.getElementById("tense-help")
     const domInput: HTMLInputElement = document.getElementById("input") as HTMLInputElement
+
+    const domVerbSelection: HTMLUListElement = document.getElementById("verb_selection") as HTMLUListElement
+    const domDisableVosotros: HTMLInputElement = document.getElementById("disable_vosotros") as HTMLInputElement
     
-    const app = new Main(domVerbBase, domVerbTranslation, domConjEnglish, domTense, domTenseHelp, domInput);
+    const app = new Main(domVerbBase, domVerbTranslation, domConjEnglish, domTense, domTenseHelp, domInput, domVerbSelection, domDisableVosotros);
 
     domInput.onkeyup = (e) => {
         if(e.keyCode === 13) {
             e.preventDefault()
             app.handleInput()
         }
+    }
+    
+    domDisableVosotros.onchange = (e) => {
+        e.preventDefault()
+        app.setDisableNosotros(domDisableVosotros.checked)
     }
 })();
