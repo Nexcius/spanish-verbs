@@ -1,171 +1,8 @@
-import{data} from "./data.js"
-import { TenseType, TENSES } from "./tense.js"
-import { randomEnum, normalizeString } from "./util.js"
-import { PronounType, Verb, PRONOUNS } from "./verb.js"
-import { Session } from "./session.js"
+import { App } from "./app.js"
 
 // https://www.grammarly.com/blog/verb-conjugation/
 // https://www.spanishdict.com/conjugate/ser
 
-enum AppState {
-    QUERY, FEEDBACK
-}
-
-function tryGa(v: any) {
-    try {
-        ga(v)
-    } catch (error) {
-        console.warn("Error:" + error)
-    }
-}
-
-class Main {
-    domVerbBase: HTMLSpanElement
-    domVerbTranslation: HTMLSpanElement
-    domConjEnglish: HTMLHeadingElement
-    domTense: HTMLSpanElement
-    domTenseHelp: HTMLSpanElement
-    domInput: HTMLInputElement
-
-    domVerbSelection: HTMLUListElement
-    domDisableVosotros: HTMLInputElement
-
-    currentVerb: Verb
-    currentTense: TenseType
-    currentPronoun: PronounType
-    state: AppState
-
-    private disableVosotros: boolean
-    private verbs: Verb[]
-
-    session = new Session()
-
-    private static TIMEOUT_DURATION: number = 3000
-    
-
-    constructor(
-            domVerbBase: HTMLSpanElement,
-            domVerbTranslation: HTMLSpanElement,
-            domConjEnglish: HTMLHeadingElement,
-            domTense: HTMLSpanElement,
-            domTenseHelp: HTMLSpanElement,
-            domInput: HTMLInputElement,
-            domVerbSelection: HTMLUListElement,
-            domDisableVosotros: HTMLInputElement) {
-
-        this.domVerbBase =          domVerbBase
-        this.domVerbTranslation =   domVerbTranslation
-        this.domConjEnglish =       domConjEnglish
-        this.domTense =             domTense
-        this.domTenseHelp =         domTenseHelp
-        this.domInput =             domInput
-        this.domVerbSelection =     domVerbSelection
-        this.domDisableVosotros =   domDisableVosotros
-
-        this.disableVosotros = false
-        this.domDisableVosotros.checked = this.disableVosotros
-
-        this.verbs = data
-        this.populateVerbList()
-        this.next()
-    }
-
-    private populateVerbList() {
-        this.domVerbSelection.innerHTML = ""
-        this.verbs.forEach(v => {
-            let node = document.createElement("li") as HTMLLIElement
-            node.innerText = v.base
-            node.onclick = () => { 
-                if (node.classList.contains("disabled")) {
-                    node.classList.remove("disabled")
-                } else {
-                    node.classList.add("disabled")
-                }
-                this.updateVerbList()
-            }
-            this.domVerbSelection.appendChild(node)
-        })
-    }
-
-    private updateVerbList() {
-        let selectedVerbList = Array.from(this.domVerbSelection.children)
-
-        let blacklisted = selectedVerbList
-            .filter(i => i.classList.contains("disabled"))
-            .map(i => i.innerHTML)
-        this.blacklistVerbs(blacklisted)
-    }
-
-    setDisableNosotros(flag: boolean) {
-        this.disableVosotros = flag
-    }
-
-    getVerbList(): [string, boolean][] {
-        let allVerbs = data.map((verb) => verb.base)
-        let selectedVerbs = this.verbs.map((verb) => verb.base)
-        return allVerbs.map((verb) => [verb, selectedVerbs.indexOf(verb) >= 0] )
-    }
-
-    blacklistVerbs(verbsBlacklist: string[]) {
-        this.verbs = data.filter(verb => verbsBlacklist.indexOf(verb.base) < 0)
-    }
-
-    handleInput() {
-        if (this.state === AppState.QUERY) {
-            this.check()
-        } else {
-            this.next()
-        }
-    }
-
-    private randomVerb() {
-        this.currentVerb = this.verbs[Math.floor(Math.random() * this.verbs.length)]
-        this.currentTense = randomEnum(TenseType)
-        
-        do {
-            this.currentPronoun = randomEnum(PronounType)
-        } while (this.disableVosotros && this.currentPronoun === PronounType.SECOND_PERSON_PLURAL)
-    }
-
-    next() {
-        this.state = AppState.QUERY
-        this.domInput.value = ""
-        this.domInput.style.color = "black"
-        this.randomVerb()
-
-        let conj = this.currentVerb.getConjugation(this.currentTense, this.currentPronoun)
-    
-        this.domVerbBase.innerText = this.currentVerb.base
-        this.domVerbTranslation.innerText = this.currentVerb.translation
-
-        this.domConjEnglish.innerText = `${PRONOUNS[this.currentPronoun].english} ${conj.english}`
-        this.domTense.innerText = TENSES[this.currentTense].name
-        this.domTenseHelp.innerHTML = TENSES[this.currentTense].description 
-            + "<br><br>Example: "
-            + TENSES[this.currentTense].example
-
-        // tryGa("send", "event", "Interaction", "New Word")
-    }
-
-    check() {
-        this.state = AppState.FEEDBACK
-        let anwer = this.domInput.value.trim().toLowerCase()
-        let target = this.currentVerb.getConjugation(this.currentTense, this.currentPronoun)
-
-        if (anwer === target.spanish) {
-            this.domInput.style.color = "green"
-            this.session.addResult(target.spanish, true)
-        } else if (normalizeString(anwer) === normalizeString(target.spanish)) {
-            this.domInput.style.color = "blue"
-            this.session.addResult(target.spanish, true)
-        } else {
-            this.domInput.style.color = "red"
-            this.session.addResult(target.spanish, false)
-        }
-
-        this.domInput.value = target.spanish
-    }
-}
 
 (function() {  
     const domVerbBase: HTMLSpanElement = document.getElementById("verb_base")
@@ -175,10 +12,11 @@ class Main {
     const domTenseHelp: HTMLSpanElement = document.getElementById("tense-help")
     const domInput: HTMLInputElement = document.getElementById("input") as HTMLInputElement
 
-    const domVerbSelection: HTMLUListElement = document.getElementById("verb_selection") as HTMLUListElement
     const domDisableVosotros: HTMLInputElement = document.getElementById("disable_vosotros") as HTMLInputElement
+    const domVerbSelection: HTMLUListElement = document.getElementById("verb_selection") as HTMLUListElement
+    const domTenseSelection: HTMLUListElement = document.getElementById("tense_selection") as HTMLUListElement
     
-    const app = new Main(domVerbBase, domVerbTranslation, domConjEnglish, domTense, domTenseHelp, domInput, domVerbSelection, domDisableVosotros);
+    const app = new App(domVerbBase, domVerbTranslation, domConjEnglish, domTense, domTenseHelp, domInput, domDisableVosotros, domVerbSelection, domTenseSelection);
 
     domInput.onkeyup = (e) => {
         if(e.keyCode === 13) {
@@ -189,6 +27,6 @@ class Main {
     
     domDisableVosotros.onchange = (e) => {
         e.preventDefault()
-        app.setDisableNosotros(domDisableVosotros.checked)
+        app.disableVosotros = domDisableVosotros.checked
     }
 })();

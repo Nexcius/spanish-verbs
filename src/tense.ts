@@ -1,5 +1,3 @@
-import{exhaustiveCheck} from "./util.js"
-
 export enum TenseType {
     INDICATIVE_PRESENT,
     INDICATIVE_PRETERITE,
@@ -13,6 +11,14 @@ export class Tense {
     example: string
     link: string
 }
+
+function getAllTenseTypes(): TenseType[] {
+    const keys = Object.keys(TenseType).filter(k => typeof TenseType[k as any] === "number"); // ["A", "B"]
+    const allTenses = keys.map(k => TenseType[k as any]).map(x => +x) as TenseType[] // [0, 1]
+    return allTenses
+}
+
+export const TENSE_TYPE_ALL = getAllTenseTypes()
 
 export const TENSES: { [Tekey in TenseType]: Tense } = {
     [TenseType.INDICATIVE_PRESENT]: {

@@ -15,7 +15,7 @@ function lw(spanish: SixStrings, english: SixStrings): Conjugation {
     ]
 }
 
-export const data: Array<Verb> = [
+export const VERBS: Array<Verb> = [
     new Verb("ser", "to be (permanent)", {
         [TenseType.INDICATIVE_PRESENT]:     lw(["soy", "eres", "es", "somos", "soís", "son"], ["am", "are", "is", "are", "are", "are"]),
         [TenseType.INDICATIVE_PRETERITE]:   lw(["fui", "fuiste", "fue", "fuimos", "fuisteis", "fueron"], ["was", "were", "was", "were", "were", "were"]),

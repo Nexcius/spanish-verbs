@@ -42,15 +42,20 @@ hr {
     overflow-x: hidden;
 }
 
-#verb_selection {
+#sidebar h4 {
+    margin-bottom: 5px;
+}
+
+#sidebar ul {
+    margin: 0;
     padding: 0;
 }
 
-#verb_selection li.disabled {
+ul li.disabled {
     text-decoration: line-through;
 }
 
-#verb_selection li {
+#sidebar li {
     list-style: none;
 }
 
