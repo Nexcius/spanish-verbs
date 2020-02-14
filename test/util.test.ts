@@ -1,4 +1,4 @@
-import { normalizeString } from '../src/util';
+import { normalizeString } from '../src/util.js';
 import { expect } from 'chai';
 
 describe("Util tests", function() {
