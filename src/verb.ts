@@ -1,8 +1,6 @@
-import{Tense} from "./tense.js"
-import { exhaustiveCheck } from "./util.js"
-import { localizedString, Language } from "./localization.js"
+import{TenseType} from "./tense.js"
 
-export enum Pronoun {
+export enum PronounType {
     FIRST_PERSON_SINGULAR,
     SECOND_PERSON_SINGULAR,
     THIRD_PERSON_SINGULAR,
@@ -11,34 +9,51 @@ export enum Pronoun {
     THIRD_PERSON_PLURAL
 }
 
-export function pronounName(pronoun: Pronoun, language: Language): string {
-    switch (pronoun) {
-        case Pronoun.FIRST_PERSON_SINGULAR:     return localizedString(language).firstPersonSingular
-        case Pronoun.SECOND_PERSON_SINGULAR:    return localizedString(language).secondPersonSingular
-        case Pronoun.THIRD_PERSON_SINGULAR:     return localizedString(language).thirdPersonSingular
-        case Pronoun.FIRST_PERSON_PLURAL:       return localizedString(language).firstPersonPlural
-        case Pronoun.SECOND_PERSON_PLURAL:      return localizedString(language).secondPersonPlural
-        case Pronoun.THIRD_PERSON_PLURAL:       return localizedString(language).thirdPersonPlural
-    }
+export class Pronoun {
+    spanish: string
+    english: string
+    description: string
 
-    exhaustiveCheck(pronoun)
+    constructor(spanish: string, english: string, description: string) {
+        this.spanish = spanish
+        this.english = english
+        this.description = description
+    }
 }
 
+export const PRONOUNS: { [key in PronounType]: Pronoun } = {
+    [PronounType.FIRST_PERSON_SINGULAR]:    new Pronoun("yo",               "I",                "First person singular"),
+    [PronounType.SECOND_PERSON_SINGULAR]:   new Pronoun("tú",               "you (singular)",   "Second person singular"),
+    [PronounType.THIRD_PERSON_SINGULAR]:    new Pronoun("él/ella/Ud.",      "he/she/it",        "Third person singular"),
+    [PronounType.FIRST_PERSON_PLURAL]:      new Pronoun("nosotros",         "we",               "First person plural"),
+    [PronounType.SECOND_PERSON_PLURAL]:     new Pronoun("vosotros",         "you (plural)",     "Second person plural"),
+    [PronounType.THIRD_PERSON_PLURAL]:      new Pronoun("ellos/ellas/Uds.", "they",             "Third person plural"),
+}
 
-export type Conjugation = [string, string, string, string, string, string]
+export class Word{
+    spanish: string
+    english: string
+
+    constructor(spanish: string, english: string) {
+        this.spanish = spanish
+        this.english = english
+    }
+}
+
+export type Conjugation = [Word, Word, Word, Word, Word, Word]
 
 export class Verb {
     base: string
     translation: string
-    conjugations: { [key in Tense]: Conjugation }
+    conjugations: { [key in TenseType]: Conjugation }
 
-    constructor(base: string, translation: string, conjugations: { [key in Tense]: Conjugation }) {
+    constructor(base: string, translation: string, conjugations: { [key in TenseType]: Conjugation }) {
         this.base = base
         this.translation = translation
         this.conjugations = conjugations
     }
 
-    getConjugation(tense: Tense, pronoun: Pronoun): string {
+    getConjugation(tense: TenseType, pronoun: PronounType): Word {
         this.conjugations
         return this.conjugations[tense][pronoun]
     }

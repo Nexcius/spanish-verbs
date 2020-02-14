@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Lato|Montserrat&display=swap');
 
 body {
-    background-color: lightgray;
+    background-color: rgb(187, 230, 245);
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -18,18 +18,25 @@ hr {
     box-sizing: border-box;
     max-width: 800px;
     margin: 0 auto;
-    padding: 50px 50px;
+    padding: 30px 30px;
     background-color: whitesmoke;
     text-align: center;
 }
 
-#verb {
-    
-
+#footer {
+    text-align: right;
+    margin-top: 50px;
+    font-size: small;
 }
 
-#translation {
+#verb {
+    margin-bottom: 40px;
+}
+
+#verb_translation {
     font-style: italic;
+    font-weight: normal;
+    font-size: smaller;
 }
 
 
