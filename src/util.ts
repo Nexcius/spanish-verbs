@@ -8,3 +8,15 @@ export function randomEnum<T>(anEnum: T): T[keyof T] {
     const randomEnumValue = enumValues[randomIndex]
     return randomEnumValue;
 }
+
+export function normalizeString(str: string): string {
+    return str
+        .normalize()
+        .toLowerCase()
+        .replace(new RegExp("á", "g"), "a")
+        .replace(new RegExp("é", "g"), "e")
+        .replace(new RegExp("í", "g"), "i")
+        .replace(new RegExp("ó", "g"), "o")
+        .replace(new RegExp("[üú]", "g"), "u")
+        .replace(new RegExp("ñ", "g"), "n")
+}

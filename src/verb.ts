@@ -1,5 +1,6 @@
 import{Tense} from "./tense.js"
 import { exhaustiveCheck } from "./util.js"
+import { localizedString, Language } from "./localization.js"
 
 export enum Pronoun {
     FIRST_PERSON_SINGULAR,
@@ -10,14 +11,14 @@ export enum Pronoun {
     THIRD_PERSON_PLURAL
 }
 
-export function pronounName(pronoun: Pronoun): string {
+export function pronounName(pronoun: Pronoun, language: Language): string {
     switch (pronoun) {
-        case Pronoun.FIRST_PERSON_SINGULAR: return "First person singular"
-        case Pronoun.SECOND_PERSON_SINGULAR: return "Second person singular"
-        case Pronoun.THIRD_PERSON_SINGULAR: return "Third person singular"
-        case Pronoun.FIRST_PERSON_PLURAL: return "First person plural"
-        case Pronoun.SECOND_PERSON_PLURAL: return "Second person plural"
-        case Pronoun.THIRD_PERSON_PLURAL: return "Third person plural"
+        case Pronoun.FIRST_PERSON_SINGULAR:     return localizedString(language).firstPersonSingular
+        case Pronoun.SECOND_PERSON_SINGULAR:    return localizedString(language).secondPersonSingular
+        case Pronoun.THIRD_PERSON_SINGULAR:     return localizedString(language).thirdPersonSingular
+        case Pronoun.FIRST_PERSON_PLURAL:       return localizedString(language).firstPersonPlural
+        case Pronoun.SECOND_PERSON_PLURAL:      return localizedString(language).secondPersonPlural
+        case Pronoun.THIRD_PERSON_PLURAL:       return localizedString(language).thirdPersonPlural
     }
 
     exhaustiveCheck(pronoun)

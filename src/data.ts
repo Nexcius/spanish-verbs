@@ -3,6 +3,20 @@
 import{Tense} from "./tense.js"
 import{Verb} from "./verb.js"
 
+class AAA {
+    lol1: string
+    lol2: string
+}
+
+class Word {
+    spanish: string
+    english: string
+
+    constructor(spanish: string, english: string) {
+        this.spanish = spanish
+        this.english = english
+    }
+}
 
 export const data: Array<Verb> = [
         new Verb("ser", "to be (permanent)", {

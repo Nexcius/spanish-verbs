@@ -1,4 +1,5 @@
 import{exhaustiveCheck} from "./util.js"
+import { localizedString, Language } from "./localization.js"
 
 export enum Tense {
     INDICATIVE_PRESENT,
@@ -7,12 +8,12 @@ export enum Tense {
     INDICATIVE_FUTURE
 }
 
-export function tenseName(tense: Tense): string {
+export function tenseName(tense: Tense, language: Language): string {
     switch (tense) {
-        case Tense.INDICATIVE_PRESENT: return "Indicative present"
-        case Tense.INDICATIVE_PRETERITE: return "Indicative preterite"
-        case Tense.INDICATIVE_IMPERFECT: return "Indicative imperfect"
-        case Tense.INDICATIVE_FUTURE: return "Indicative future"
+        case Tense.INDICATIVE_PRESENT: return localizedString(language).indicativePresent
+        case Tense.INDICATIVE_PRETERITE: return localizedString(language).indicativePreterite
+        case Tense.INDICATIVE_IMPERFECT: return localizedString(language).indicativeImperfect
+        case Tense.INDICATIVE_FUTURE: return localizedString(language).indicativeFuture
     }
 
     exhaustiveCheck(tense)

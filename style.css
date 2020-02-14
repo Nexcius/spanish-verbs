@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css?family=Lato|Montserrat&display=swap');
+
+body {
+    background-color: lightgray;
+    font-family: 'Montserrat', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Lato', sans-serif;
+}
+
+hr {
+    color: black;
+}
+
+
+#main {
+    box-sizing: border-box;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 50px 50px;
+    background-color: whitesmoke;
+    text-align: center;
+}
+
+#verb {
+    
+
+}
+
+#translation {
+    font-style: italic;
+}
+
+
+#inputcontainer {
+    margin: 25px auto;
+}
+
+#input {
+    border: 0;
+    background: transparent;
+    border-bottom: 1px solid gray;
+    font-size: x-large;
+    text-align: center;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 400px;
+    background-color: rgb(49, 49, 49);
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 5px 10px;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
