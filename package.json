@@ -5,6 +5,7 @@
   },
   "devDependencies": {
     "@types/chai": "^4.2.9",
+    "@types/google.analytics": "0.0.40",
     "@types/mocha": "^7.0.1",
     "chai": "^4.2.0",
     "mocha": "^7.0.1",
