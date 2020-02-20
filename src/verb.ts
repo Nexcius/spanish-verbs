@@ -46,12 +46,16 @@ export class Verb {
     base: string
     translation: string
     conjugations: { [key in TenseType]: Conjugation }
+    enabledByDefault: boolean
 
-    constructor(base: string, translation: string, conjugations: { [key in TenseType]: Conjugation }) {
+    constructor(base: string, translation: string, conjugations: { [key in TenseType]: Conjugation }, enabledByDefault: boolean = true) {
         this.base = base
         this.translation = translation
         this.conjugations = conjugations
+        this.enabledByDefault = enabledByDefault
     }
+
+    
 
     getConjugation(tense: TenseType, pronoun: PronounType): Word {
         this.conjugations

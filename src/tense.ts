@@ -5,6 +5,8 @@ export enum TenseType {
     INDICATIVE_FUTURE,
 }
 
+export const DEFAULT_ENABLED_TENSES = [TenseType.INDICATIVE_PRESENT, TenseType.INDICATIVE_PRETERITE, TenseType.INDICATIVE_IMPERFECT, TenseType.INDICATIVE_FUTURE]
+
 export class Tense {
     name: string
     description: string

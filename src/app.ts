@@ -2,7 +2,7 @@ import { Verb, PronounType, PRONOUNS } from "./verb.js"
 import { TenseType, TENSES } from "./tense.js"
 import { Session } from "./session.js"
 import { randomEnum, normalizeString } from "./util.js"
-import { populateTenseList, getSelectedTenses, getSelectedVerbs, populateVerbList } from "./ui.js"
+import { initTenseList, getSelectedTenses, getSelectedVerbs, initVerbList } from "./ui.js"
 
 enum AppState {
     QUERY, FEEDBACK
@@ -61,8 +61,8 @@ export class App {
         this.disableVosotros = false
         this.domDisableVosotros.checked = this.disableVosotros
 
-        populateVerbList(this, this.domVerbSelection)
-        populateTenseList(this, this.domTenseSelection)
+        initVerbList(this, this.domVerbSelection)
+        initTenseList(this, this.domTenseSelection)
         this.update()
         this.next()
     }

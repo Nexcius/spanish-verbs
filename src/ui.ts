@@ -1,9 +1,9 @@
-import { TENSE_TYPE_ALL, TENSES, TenseType } from "./tense.js";
+import { TENSE_TYPE_ALL, TENSES, TenseType, Tense, DEFAULT_ENABLED_TENSES } from "./tense.js";
 import { VERBS } from "./data.js";
 import { App } from "./app.js";
 import { Verb } from "./verb.js";
 
-export function populateTenseList(app: App, domTenseSelection: HTMLUListElement) {
+export function initTenseList(app: App, domTenseSelection: HTMLUListElement) {
     domTenseSelection.innerHTML = ""
 
     TENSE_TYPE_ALL.forEach(tense => {
@@ -16,6 +16,9 @@ export function populateTenseList(app: App, domTenseSelection: HTMLUListElement)
                 node.classList.add("disabled")
             }
             app.update()
+        }
+        if(DEFAULT_ENABLED_TENSES.indexOf(tense) < 0) {
+            node.classList.add("disabled")
         }
         domTenseSelection.appendChild(node)
     });
@@ -32,22 +35,26 @@ export function getSelectedTenses(domTenseSelection: HTMLUListElement): TenseTyp
         .filter(tense => blacklisted.indexOf(TENSES[tense].name) < 0)        
 }
 
-export function populateVerbList(app: App, domVerbSelection: HTMLUListElement) {
+export function initVerbList(app: App, domVerbSelection: HTMLUListElement) {
     domVerbSelection.innerHTML = ""
 
-    VERBS.forEach(v => {
-        let node = document.createElement("li") as HTMLLIElement
-        node.innerText = v.base
-        node.onclick = () => { 
-            if (node.classList.contains("disabled")) {
-                node.classList.remove("disabled")
-            } else {
+    VERBS
+        .forEach(v => {
+            let node = document.createElement("li") as HTMLLIElement
+            node.innerText = v.base
+            node.onclick = () => { 
+                if (node.classList.contains("disabled")) {
+                    node.classList.remove("disabled")
+                } else {
+                    node.classList.add("disabled")
+                }
+                app.update()
+            }
+            if(!v.enabledByDefault) {
                 node.classList.add("disabled")
             }
-            app.update()
-        }
-        domVerbSelection.appendChild(node)
-    })
+            domVerbSelection.appendChild(node)
+        })
 }
 
 export function getSelectedVerbs(domVerbSelection: HTMLUListElement): Verb[] {

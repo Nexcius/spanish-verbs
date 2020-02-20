@@ -27,5 +27,5 @@ export const VERBS: Array<Verb> = [
         [TenseType.INDICATIVE_PRETERITE]:   lw(["estuve", "estuviste", "estuvo", "estuvimos", "estuvisteis", "estuvieron"], ["was", "were", "was", "were", "were", "were"]),
         [TenseType.INDICATIVE_IMPERFECT]:   lw(["estaba", "estabas", "estaba", "estábamos", "estabais", "estaban"], ["was", "were", "was", "were", "were", "were"]),
         [TenseType.INDICATIVE_FUTURE]:      lw(["estaré", "estarás", "estará", "estaremos", "estaréis", "estarán"], ["will be", "will be", "will be", "will be", "will be", "will be"]),
-    }),
+    }, false),
 ]
