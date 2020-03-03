@@ -1,10 +1,23 @@
 import { App } from "./app.js"
+import { Template } from "./template.js";
 
 // https://www.grammarly.com/blog/verb-conjugation/
 // https://www.spanishdict.com/conjugate/ser
 
 
-(function() {  
+(function() {
+
+
+    // Yo soy español
+    // Nosotros somos españoles
+    // Yo estoy en Inglaterra
+    // Ustedes fueron a la casa
+    let a: Template = new Template("Hello {1}. You are {1}", ["Lars"])
+    
+    console.log(a)
+    console.log(a.get(false))
+    console.log(a.get(true))
+
     const domVerbBase: HTMLSpanElement = document.getElementById("verb_base")
     const domVerbTranslation: HTMLSpanElement = document.getElementById("verb_translation")
     

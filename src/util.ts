@@ -1,3 +1,5 @@
+import { PronounType } from "./verb.js";
+
 export function exhaustiveCheck( param: never ) { }
 
 export function randomEnum<T>(anEnum: T): T[keyof T] {
@@ -27,4 +29,9 @@ export function zeroPad(num: number, minLength: number): string {
         s = "0" + s
     }
     return s
+}
+
+export function isPlural(pronounType: PronounType): boolean {
+    const pluralPronouns = [PronounType.FIRST_PERSON_PLURAL, PronounType.SECOND_PERSON_PLURAL, PronounType.THIRD_PERSON_PLURAL]
+    return pluralPronouns.indexOf(pronounType) >= 0
 }

@@ -3,8 +3,7 @@
 import{TenseType} from "./tense.js"
 import{Verb, Conjugation, Word} from "./verb.js"
 
-type SixStrings = [string, string, string, string, string, string]
-function lw(spanish: SixStrings, english: SixStrings): Conjugation {
+function lw(spanish: [string, string, string, string, string, string], english: [string, string, string, string, string, string]): Conjugation {
     return [
         new Word(spanish[0], english[0]),
         new Word(spanish[1], english[1]),
