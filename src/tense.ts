@@ -2,6 +2,7 @@ export enum TenseType {
     INDICATIVE_PRESENT,
     INDICATIVE_PRETERITE,
     INDICATIVE_IMPERFECT,
+    INDICATIVE_CONDITIONAL,
     INDICATIVE_FUTURE,
 }
 
@@ -40,6 +41,12 @@ export const TENSES: { [Tekey in TenseType]: Tense } = {
         description: "Imperfect tense (el pretérito imperfecto / copretérito) is used to describe past habitual actions or to talk about what someone was doing when they were interrupted by something else.",
         example: "They used to be cool",
         link: "https://www.spanishdict.com/guide/spanish-imperfect-tense-forms"
+    },
+    [TenseType.INDICATIVE_CONDITIONAL]: {
+        name: "Indicative conditional",
+        description: "The conditional tense in Spanish (el condicional / el pospretérito) is used to talk about hypothetical situations and probabilities and to make polite requests.",
+        example: "If i could sing, I would have been the best",
+        link: "https://www.spanishdict.com/guide/conditional-tense"
     },
     [TenseType.INDICATIVE_FUTURE]: {
         name: "Indicative future",

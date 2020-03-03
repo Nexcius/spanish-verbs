@@ -111,20 +111,23 @@ export class App {
 
     check() {
         this.state = AppState.FEEDBACK
-        let anwer = this.domInput.value.trim().toLowerCase()
-        let target = this.currentVerb.getConjugation(this.currentTense, this.currentPronoun)
+        let givenAnswer = this.domInput.value.trim().toLowerCase()
+        
+        let targetVerb = this.currentVerb.getConjugation(this.currentTense, this.currentPronoun)
+        let correctAnswers: string[] = targetVerb.spanish.split("/")
+        let correctNormalizedAnswers: string[] = correctAnswers.map(s => normalizeString(s))
 
-        if (anwer === target.spanish) {
+        if (correctAnswers.indexOf(givenAnswer) >= 0) {
             this.domInput.style.color = "green"
-            this.session.addResult(target.spanish, true)
-        } else if (normalizeString(anwer) === normalizeString(target.spanish)) {
+            this.session.addResult(targetVerb.spanish, true)
+        } else if (correctNormalizedAnswers.indexOf(normalizeString(givenAnswer)) >= 0) {
             this.domInput.style.color = "blue"
-            this.session.addResult(target.spanish, true)
+            this.session.addResult(targetVerb.spanish, true)
         } else {
             this.domInput.style.color = "red"
-            this.session.addResult(target.spanish, false)
+            this.session.addResult(targetVerb.spanish, false)
         }
 
-        this.domInput.value = target.spanish
+        this.domInput.value = targetVerb.spanish
     }
 }
