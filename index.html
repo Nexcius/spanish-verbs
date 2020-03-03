@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-36193529-4"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'UA-36193529-4');
+        </script>
+
+
+        <title>Verb Conjugation Trainer</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div id="main">
+            <h1 id="title">Verb Conjugation Trainer</h1>
+            <hr>
+            <h2 id="verb">
+                <span id="verb_base"></span>
+                <br>
+                <span id="verb_translation"></span>
+            </h2>
+            
+            <h3>
+                <span id="conjugation_spanish"></span>
+                <br>
+                <span id="conjugation_english"></span>
+            </h3>
+
+            <div id="inputcontainer">
+                <input id="input" type="text">
+            </div>
+
+            <div class="tooltip">
+                <span id="tense"></span>
+                <span class="tooltiptext" id="tense-help"></span>
+            </div>
+
+            <div id="footer">
+                &copy; 2020 <a href="https://github.com/Nexcius" target="_blank">H&aring;vard Kindem</a>
+            </div>
+
+        </div>
+
+        <div id="sidebar">
+            <h4>Settings</h4>
+            <div id="Disable vosotros">
+                <input id="disable_vosotros" type="checkbox">
+                <label for="disable_vosotros">Disable vosotros</label>
+            </div>
+
+            <h4>Verb selection</h4>
+            <ul id="verb_selection">
+            </ul>
+
+            <h4>Tense selection</h4>
+            <ul id="tense_selection">
+            </ul>
+        </div>
+
+    </body>
+    <script  type="module" src="js/main.js"></script>
+</html>
